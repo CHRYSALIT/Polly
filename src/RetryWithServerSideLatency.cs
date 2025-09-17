@@ -72,6 +72,8 @@ public static class RetryWithServerSideLatency
         Func<TConn, TResult> Action,
         IEqualityComparer<TConn>? TConnEqualityComparer = null) where TConn : class
     {
+
+        
         var pipeline = BuildResiliencePipeline<TConn>(maxUniqueTConnExpected, maxUniqueTConnAcquisitionAttempts, TConnEqualityComparer);
 
         var context = CreateResilienceContext(TConnFactory, TConnCleaner, maxUniqueTConnExpected);
