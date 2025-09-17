@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrysalit.Polly", "src\Chrysalit.Polly.csproj", "{7CDF2DFF-72FD-D91C-6EAF-EDD2E74E6384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrysalit.Polly.Tests", "tests\Chrysalit.Polly.Tests\Chrysalit.Polly.Tests.csproj", "{DFF0A0E1-190B-4DB5-8E6E-6AA84B50C963}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CDF2DFF-72FD-D91C-6EAF-EDD2E74E6384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CDF2DFF-72FD-D91C-6EAF-EDD2E74E6384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CDF2DFF-72FD-D91C-6EAF-EDD2E74E6384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CDF2DFF-72FD-D91C-6EAF-EDD2E74E6384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF0A0E1-190B-4DB5-8E6E-6AA84B50C963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF0A0E1-190B-4DB5-8E6E-6AA84B50C963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF0A0E1-190B-4DB5-8E6E-6AA84B50C963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF0A0E1-190B-4DB5-8E6E-6AA84B50C963}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1066D2F-557C-4474-AF06-C3AE79F2965C}
+	EndGlobalSection
+EndGlobal
