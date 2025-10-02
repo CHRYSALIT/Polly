@@ -1,32 +1,30 @@
 # Chrysalit.Polly
 
-This package provide a generic implementation of a `retry strategy` as offered with package such as [Polly](https://www.nuget.org/packages/Polly).
+This package provides a generic implementation of a retry strategy, built on top of [Polly](https://www.nuget.org/packages/Polly), that helps when the target system may require multiple attempts across different servers (e.g., due to replication lag).
 
+## Original Problem
 
-# Original Problem
+After creating an object on an LDAP directory server, the object may not have replicated to all servers participating in the same Naming Context. Ideally, the initial LDAP connection that created the object should be reused for subsequent operations. However, when that connection cannot be reused, a new LDAP connection may reach a server where the object has not yet replicated (seconds or more depending on topology). As a result, operations can fail even though the object exists (or will exist shortly).
 
-After creating an object on a LDAP directory server, this object may not yet be replicated to all LDAP directory servers participating in the replication topology of the Naming Context.
-Ideally the initial LDAP connection that created the object should be reused to ensure the following LDAP operations are performed on the server having the new object.
-But sometimes the LDAP connection cannot be reused., and so building a new LDAP connection may access a server on which replication has not yet occured (matter of seconds or more, depending the replication topology).
-So the LDAP operation may finally fail while it is certain the LDAP object exist, or will exist in a short amount of time.
+Delaying the operation may not be acceptable depending on caller requirements.
 
-We could delay the operation, but depending the caller requirements, waiting the object to be available may not be an option.
+By using this advanced retry strategy, the operation is attempted on an initial LDAP connection and then retried using new connections targeting different servers until success or until the configured limits are reached.
 
-By using this advanced retry strategy, the required operation is attempted with on any LDAP connection at first, and then retried on any new server that may be reached.
+This situation commonly arises when using a generic DNS name such as "contoso.corp", where DNS may resolve to multiple LDAP servers.
 
-This issue arise when using a generic DNS name, like 'contoso.corp', for which the DNS server may answer any LDAP server.
+## Solution
 
+This retry strategy is not bound to LDAP. It can be used for any scenario where server-side replication latency exists and an operation may fail on one server but succeed on another.
 
-# Solution
+## Mathematical principles
 
-This advanced retry strategy is not explicitely bounded to LDAP. It can be used for anything on which a replication delay may occurs on server side, meaning the operation attempted against a server may fail on a server but success on another.
+AI assisted in exploring some [mathematical principles](/MATH.md) related to the coupon collector/occupancy problem. Keep in mind that AI can make mistakes; no guarantees are provided regarding the quality of that content.
 
+## Installation
 
-# Installation 
+### NuGet
 
-## Nuget
-
-The package is available on [Nuget](https://www.nuget.org/packages/Chrysalit.Polly/).
+The package is available on [NuGet](https://www.nuget.org/packages/Chrysalit.Polly/).
 
 ```csharp
 dotnet add package Chrysalit.Polly

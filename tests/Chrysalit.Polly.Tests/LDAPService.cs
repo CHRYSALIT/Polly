@@ -8,7 +8,10 @@ namespace Chrysalit.Polly.Tests
 {
     #region Fake LDAP services
     /// <summary>
-    /// fake LDAP connection object to simulate different LDAP servers.
+    /// Fake LDAP connection object for testing purposes.
+    /// 
+    /// Simulates connections to different LDAP servers by randomly assigning
+    /// server names based on the total number of servers in the replication topology.
     /// </summary>
     internal class LdapConnection : IDisposable
     {
@@ -29,10 +32,17 @@ namespace Chrysalit.Polly.Tests
     }
 
     /// <summary>
-    /// fake intermediary service to get LDAP connections.
+    /// Static factory for creating LDAP connections.
+    /// 
+    /// Provides a simple way to create new connection instances for testing.
     /// </summary>
     internal class LdapConnectionService
     {
+        /// <summary>
+        /// Creates a new LDAP connection to a randomly selected server.
+        /// </summary>
+        /// <param name="ldap_servers_count">Total number of servers in the topology.</param>
+        /// <returns>A new LDAP connection instance.</returns>
         public static LdapConnection GetLdapConnection(int ldap_servers_count)
         {
             return new LdapConnection(ldap_servers_count);
@@ -40,7 +50,11 @@ namespace Chrysalit.Polly.Tests
     }
 
     /// <summary>
-    /// fake LDAP connection pool service to manage LDAP connections.
+    /// Fake LDAP connection pool service for testing connection management.
+    /// 
+    /// Simulates a connection pool that tracks active connections and ensures
+    /// proper cleanup. Used to validate that the retry strategy correctly
+    /// manages pooled resources.
     /// </summary>
     internal class LdapConnectionPoolService
     {
@@ -52,6 +66,10 @@ namespace Chrysalit.Polly.Tests
             _ldap_servers_count = ldap_servers_count;
         }
 
+        /// <summary>
+        /// Gets a connection from the pool (creates new instance for testing).
+        /// </summary>
+        /// <returns>A new LDAP connection instance.</returns>
         internal LdapConnection GetLdapConnection()
         {
             var some = LdapConnectionService.GetLdapConnection(_ldap_servers_count);
@@ -59,12 +77,19 @@ namespace Chrysalit.Polly.Tests
             return some;
         }
 
+        /// <summary>
+        /// Returns a connection to the pool, marking it as available.
+        /// </summary>
+        /// <param name="someDisposable">The connection to return.</param>
         internal void Free(LdapConnection someDisposable)
         {
             _inUse.Remove(someDisposable);
             someDisposable.Dispose();
         }
 
+        /// <summary>
+        /// Gets the number of currently active connections in the pool.
+        /// </summary>
         internal int Count => _inUse.Count;
     }
     #endregion

@@ -1,43 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
 
-	<!--! Nuget -->
-	<PackageId>Chrysalit.Polly</PackageId>
-	<Version>1.0.0</Version>
-	<Authors>Vincent DAILLY</Authors>
-	<Owners>Chrysalit</Owners>
-	<Company>Chrysalit</Company>
-	<Copyright>© Chrysalit. All rights reserved.</Copyright>
-	<Description>Advanced Polly strategies</Description>
-	<PackageTags>polly; ldap; replication;</PackageTags>
-	<PackageIcon>chrysalit.png</PackageIcon>
-	<PackageIconUrl>https://raw.githubusercontent.com/CHRYSALIT/Extensions.UserSecrets/main/chrysalit.png</PackageIconUrl>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<RepositoryUrl>https://github.com/CHRYSALIT/Polly</RepositoryUrl>
-	<PackageProjectUrl>https://github.com/CHRYSALIT/Polly</PackageProjectUrl>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<MinClientVersion>2.8</MinClientVersion>
-	<IncludeSymbols>true</IncludeSymbols>
-	<IncludeSource>true</IncludeSource>
-	<Title>$(AssemblyName)</Title>
-	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <!-- NuGet Package Metadata -->
+    <PackageId>Chrysalit.Polly</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Vincent DAILLY</Authors>
+    <Owners>Chrysalit</Owners>
+    <Company>Chrysalit</Company>
+    <Copyright>© Chrysalit. All rights reserved.</Copyright>
+    <Description>Advanced Polly strategies for handling server-side replication latency</Description>
+    <PackageTags>polly;resilience;retry;ldap;replication;latency</PackageTags>
+    <PackageIcon>chrysalit.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/CHRYSALIT/Polly/main/chrysalit.png</PackageIconUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/CHRYSALIT/Polly</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/CHRYSALIT/Polly</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <MinClientVersion>2.8</MinClientVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <Title>$(AssemblyName)</Title>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-	<None Include="..\README.md" Pack="true" PackagePath="" />
-	<None Include="..\chrysalit.png" Pack="true" PackagePath="" />
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\chrysalit.png" Pack="true" PackagePath="" />
   </ItemGroup>
-	
+
   <ItemGroup>
-	<PackageReference Include="Polly.Core" Version="8.*" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.*" />
-	<PackageReference Include="System.DirectoryServices.Protocols" Version="6.*" />
+    <PackageReference Include="Polly.Core" Version="8.6.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.*" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="6.*" />
   </ItemGroup>
-	
+
 </Project>
