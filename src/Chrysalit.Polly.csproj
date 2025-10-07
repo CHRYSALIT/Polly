@@ -7,7 +7,7 @@
 
     <!-- NuGet Package Metadata -->
     <PackageId>Chrysalit.Polly</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Vincent DAILLY</Authors>
     <Owners>Chrysalit</Owners>
     <Company>Chrysalit</Company>

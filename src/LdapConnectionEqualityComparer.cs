@@ -5,7 +5,7 @@ namespace Chrysalit.Polly;
 /// <summary>
 /// <see cref="LdapConnection"/> equality comparer using the LDAP RootDSE "dnsHostName" attribute.
 /// </summary>
-public class LdapConnectionEqualityComparer
+public class LdapConnectionEqualityComparer : IEqualityComparer<LdapConnection>
 {
     /// <summary>
     /// Provide the LDAP attribute value to use for comparaison for a <see cref="LdapConnection"/>.
