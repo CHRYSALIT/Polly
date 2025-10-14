@@ -8,12 +8,6 @@ namespace Chrysalit.Polly;
 public class LdapConnectionEqualityComparer : IEqualityComparer<LdapConnection>
 {
     /// <summary>
-    /// Provide the LDAP attribute value to use for comparaison for a <see cref="LdapConnection"/>.
-    /// This avoid multiple LDAP queries to the same server for the same attribute.
-    /// </summary>
-    protected Dictionary<LdapConnection, string> ConnectionAttributeMap { get; } = new();
-
-    /// <summary>
     /// LDAP attribute to use for comparaison.
     /// </summary>
     protected string Attribute { get; private set; } = "dnsHostName";
@@ -36,26 +30,15 @@ public class LdapConnectionEqualityComparer : IEqualityComparer<LdapConnection>
         if (x == null && y == null) return true;
         if (x == null || y == null) return false;
 
-        if (!ConnectionAttributeMap.TryGetValue(x, out string? xvalue))
-        {
-            xvalue = GetDnsHostName(x);
-            ConnectionAttributeMap.Add(x, xvalue);
-        }
-        if (!ConnectionAttributeMap.TryGetValue(y, out string? yvalue))
-        {
-            yvalue = GetDnsHostName(y);
-            ConnectionAttributeMap.Add(y, yvalue);
-        }
+        var xvalue = GetDnsHostName(x);
+        var yvalue = GetDnsHostName(y);
+
         return xvalue.Equals(yvalue, StringComparison.OrdinalIgnoreCase);
     }
 
     public int GetHashCode(LdapConnection obj)
     {
-        if (!ConnectionAttributeMap.TryGetValue(obj, out string? value))
-        {
-            value = GetDnsHostName(obj);
-            ConnectionAttributeMap.Add(obj, value);
-        }
+        var value = GetDnsHostName(obj);
         return value.GetHashCode();
     }
 

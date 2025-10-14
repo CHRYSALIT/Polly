@@ -195,6 +195,8 @@ public static class RetryWithServerSideLatency
         {
             return pipeline.Execute(ctx =>
             {
+                // connection generated first at context creation
+                // on next retries, connection is generated in OnRetry and set on the context
                 ctx.Properties.TryGetValue(RetryResiliencePropertyKeys<TConn>.CONN_KEY, out var conn);
                 if (conn is not null)
                 {
@@ -261,16 +263,17 @@ public static class RetryWithServerSideLatency
 
                     if (!ctx.Properties.TryGetValue(RetryResiliencePropertyKeys<TConn>.VISITED_KEY, out var visited))
                     {
-                        visited = new HashSet<TConn>(comparer);
+                        visited = comparer is null ? new HashSet<TConn>() : new HashSet<TConn>(comparer);
                         ctx.Properties.Set(RetryResiliencePropertyKeys<TConn>.VISITED_KEY, visited);
                     }
 
+                    // Mark current as visited, but DO NOT dispose yet
                     if (connection is not null)
                     {
                         visited.Add(connection);
-                        cleaner?.Invoke(connection);
                     }
 
+                    // Try to acquire a new unique connection
                     TConn? newConnection = null;
                     var attempt = 0;
 
@@ -280,18 +283,34 @@ public static class RetryWithServerSideLatency
                            && visited.Count < maxUniqueTConnExpected)
                     {
                         attempt++;
-                        newConnection = factory?.Invoke();
+                        var candidate = factory?.Invoke();
 
-                        if (newConnection is not null && visited.Contains(newConnection))
+                        if (candidate is null)
                         {
-                            cleaner?.Invoke(newConnection);
-                            newConnection = default;
+                            continue;
                         }
+
+                        if (visited.Contains(candidate))
+                        {
+                            // Candidate already seen → dispose candidate and continue
+                            cleaner?.Invoke(candidate);
+                            continue;
+                        }
+
+                        // Found a unique connection
+                        newConnection = candidate;
                     }
 
                     if (newConnection is not null)
                     {
+                        // Put new connection into the context first
                         ctx.Properties.Set(RetryResiliencePropertyKeys<TConn>.CONN_KEY, newConnection);
+
+                        // Now it's safe to dispose the previous one
+                        if (connection is not null)
+                        {
+                            cleaner?.Invoke(connection);
+                        }
                     }
                     return ValueTask.CompletedTask;
                 }
